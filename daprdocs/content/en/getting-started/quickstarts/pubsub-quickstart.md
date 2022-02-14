@@ -51,7 +51,7 @@ pip3 install -r requirements.txt
 Run the `checkout` publisher service alongside a Dapr sidecar.
 
 ```bash
-dapr run --app-id checkout --components-path ../components -- python3 app.py
+dapr run --app-id checkout --components-path ../../../components -- python3 app.py
 ```
 
 In the `checkout` publisher, we're publishing the orderId message to the Redis instance called `order_pub_sub` [(as defined in the `pubsub.yaml` component)]({{< ref "#pubsubyaml-component-file" >}}) and topic `orders`. As soon as the service starts, it publishes in a loop:
@@ -80,7 +80,7 @@ cd pub_sub/python/order-processor
 Run the `order-processor` subscriber service alongside a Dapr sidecar.
 
 ```bash
-dapr run --app-id order-processor --app-port 5001 --components-path ../../components  -- python3 app.py
+dapr run --app-id order-processor --app-port 5001 --components-path ../../../components  -- python3 app.py
 ```
 
 In the `order-processor` subscriber, we're subscribing to the Redis instance called `order_pub_sub` [(as defined in the `pubsub.yaml` component)]({{< ref "#pubsubyaml-component-file" >}}) and topic `orders`. This enables your app code to talk to the Redis component instance through the Dapr sidecar.
@@ -421,7 +421,10 @@ In the YAML file:
 For this example, you will need:
 
 - [Dapr CLI and initialized environment](https://docs.dapr.io/getting-started).
-- [Java 8+ installed](https://java.com/en/download/).
+- Java JDK 11 (or greater):
+  - [Oracle JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html#JDK11), or
+  - [OpenJDK](https://jdk.java.net/13/)
+- [Apache Maven](https://maven.apache.org/install.html) version 3.x.
 - [Docker Desktop](https://www.docker.com/products/docker-desktop).
 
 ### Step 1: Set up the environment
@@ -441,7 +444,7 @@ cd pub_sub/java/checkout
 Install the dependencies:
 
 ```bash
-pip3 install -r requirements.txt
+mvn clean install
 ```
 
 ### Step 2: Publish a topic
@@ -449,13 +452,23 @@ pip3 install -r requirements.txt
 Run the `checkout` publisher service alongside a Dapr sidecar.
 
 ```bash
-dapr run --app-id checkout --components-path ../components -- python3 app.py
+dapr run --app-id checkout --components-path ../../../components -- java -jar target/CheckoutService-0.0.1-SNAPSHOT.jar
 ```
 
 In the `checkout` publisher, we're publishing the orderId message to the Redis instance called `order_pub_sub` [(as defined in the `pubsub.yaml` component)]({{< ref "#pubsubyaml-component-file" >}}) and topic `orders`. As soon as the service starts, it publishes in a loop:
 
 ```java
-
+while(true) {
+			TimeUnit.MILLISECONDS.sleep(5000);
+			Random random = new Random();
+			int orderId = random.nextInt(1000-1) + 1;
+			DaprClient client = new DaprClientBuilder().build();
+			client.publishEvent(
+					PUBSUB_NAME,
+					TOPIC_NAME,
+					orderId).block();
+			System.out.println("Published data: " + orderId);
+		}
 ```
 
 ### Step 3: Subscribe to topics
@@ -469,13 +482,24 @@ cd pub_sub/java/order-processor
 Run the `order-processor` subscriber service alongside a Dapr sidecar.
 
 ```bash
-dapr run --app-id order-processor --app-port 5001 --components-path ../../components  -- python3 app.py
+dapr run --app-port 8080 --app-id order-processor --components-path ../../../components -- java -jar target/OrderProcessingService-0.0.1-SNAPSHOT.jar
 ```
 
 In the `order-processor` subscriber, we're subscribing to the Redis instance called `order_pub_sub` [(as defined in the `pubsub.yaml` component)]({{< ref "#pubsubyaml-component-file" >}}) and topic `orders`. This enables your app code to talk to the Redis component instance through the Dapr sidecar.
 
 ```java
-
+@Topic(name = "orders", pubsubName = "order_pub_sub")
+  @PostMapping(path = "/orders")
+  public Mono<ResponseEntity> getCheckout(@RequestBody(required = false) CloudEvent<String> cloudEvent) {
+      return Mono.fromSupplier(() -> {
+          try {
+              log.info("Subscriber received: " + cloudEvent.getData());
+              return new ResponseEntity<>("successful",
+                      HttpStatus.OK);
+          } catch (Exception e) {
+              throw new RuntimeException(e);
+          }
+      });
 ```
 
 ### Step 4: View the Pub/sub outputs
