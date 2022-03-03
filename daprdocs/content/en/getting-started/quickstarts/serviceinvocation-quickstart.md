@@ -6,20 +6,18 @@ weight: 70
 description: "Get started with Dapr's Service Invocation building block"
 ---
 
-With [Dapr's Service Invocation building block](https://docs.dapr.io/developing-applications/building-blocks/service-invocation), your application can communicate reliably and securely with other applications using standard [gRPC](https://grpc.io) or [HTTP](https://www.w3.org/Protocols/) protocols.
+With [Dapr's Service Invocation building block](https://docs.dapr.io/developing-applications/building-blocks/service-invocation), your application can communicate reliably and securely with other applications using standard [gRPC](https://grpc.io) or [HTTP](https://www.w3.org/Protocols/) protocols. As the sidecar programming model encourages each application to talk to its own Dapr instance, the Dapr instances discover and communicate with one another.
 
 {{% alert title="Note" color="primary" %}}
- Dapr offers several ways to enable service invocation. While we recommend enabling with http proxy, you can explore all of Dapr's Service Invocation options in [our building blocks section]({{< ref "developing-applications/building-blocks/service-invocation/howto-invoke-discover-services" >}}).
+ Dapr offers several ways to enable service invocation. We recommend enabling with http proxy, as it allows you to leverage your existing http client without changing your endpoints. 
+
+You can explore all of Dapr's Service Invocation options in [our building blocks section]({{< ref "developing-applications/building-blocks/service-invocation/howto-invoke-discover-services" >}}).
 
 {{% /alert %}}
 
 Using sidecar architecture:
 
-1. Dapr provides a service invocation API that acts as a combination of a reverse proxy with built-in service discovery. 
-1. The sidecar programming model encourages each application to talk to its own Dapr instance. 
-1. The Dapr instances discover and communicate with one another.
-
-<img src="/images/service-invocation-overview.png" width=800 alt="Diagram showing the steps of service invocation">
+<img src="/images/serviceinvocation-quickstart/service-invocation-overview.png" width=800 alt="Diagram showing the steps of service invocation" style="padding-bottom:25px;">
 
 In this quickstart, you'll enable Dapr's service invocation by creating:
 
@@ -69,6 +67,8 @@ Run the `checkout` service alongside a Dapr sidecar.
 ```bash
 dapr run  --app-id checkout --app-protocol http --dapr-http-port 3500 -- python3 app.py
 ```
+
+In the `checkout` service, you'll notice there's no need to rewrite your app code to use Dapr's service invocation. You can enable service invocation by simply adding the `dapr-app-id` header which will specify the ID of the target service. 
 
 ```python
 headers = {'dapr-app-id': 'order-processor'}
@@ -153,7 +153,7 @@ Run the `checkout` service alongside a Dapr sidecar.
 dapr run  --app-id checkout --app-protocol http --dapr-http-port 3500 -- npm start
 ```
 
-In the `checkout` service, you'll notice there's no need to rewrite your app code to use Dapr's service invocation. You can enable service invocation by simply identifying the `dapr-app-id` header.
+In the `checkout` service, you'll notice there's no need to rewrite your app code to use Dapr's service invocation. You can enable service invocation by simply adding the `dapr-app-id` header which will specify the ID of the target service. 
 
 ```javascript
 let axiosConfig = {
@@ -234,13 +234,15 @@ Run the `checkout` service alongside a Dapr sidecar.
 dapr run  --app-id checkout --app-protocol http --dapr-http-port 3500 -- npm start
 ```
 
+In the `checkout` service, you'll notice there's no need to rewrite your app code to use Dapr's service invocation. You can enable service invocation by simply adding the `dapr-app-id` header which will specify the ID of the target service.
+
 ```csharp
 var client = new HttpClient();
 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
 client.DefaultRequestHeaders.Add("dapr-app-id", "order-processor");
 
- var response = await client.PostAsync($"{baseURL}/orders", content);
+var response = await client.PostAsync($"{baseURL}/orders", content);
     Console.WriteLine("Order passed: " + order);
 ```
 
@@ -312,6 +314,8 @@ Run the `checkout` service alongside a Dapr sidecar.
 ```bash
 dapr run  --app-id checkout --app-protocol http --dapr-http-port 3500 -- go run app.go
 ```
+
+In the `checkout` service, you'll notice there's no need to rewrite your app code to use Dapr's service invocation. You can enable service invocation by simply adding the `dapr-app-id` header which will specify the ID of the target service.
 
 ```go
 req.Header.Add("dapr-app-id", "order-processor")
