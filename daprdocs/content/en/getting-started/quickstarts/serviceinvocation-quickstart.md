@@ -6,29 +6,17 @@ weight: 70
 description: "Get started with Dapr's Service Invocation building block"
 ---
 
-With [Dapr's Service Invocation building block](https://docs.dapr.io/developing-applications/building-blocks/service-invocation), your application can communicate reliably and securely with other applications using standard [gRPC](https://grpc.io) or [HTTP](https://www.w3.org/Protocols/) protocols. As the sidecar programming model encourages each application to talk to its own Dapr instance, the Dapr instances discover and communicate with one another.
-
-{{% alert title="Note" color="primary" %}}
- Dapr offers several ways to enable service invocation. We recommend enabling with http proxy, as it allows you to leverage your existing http client without changing your endpoints. 
-
-You can explore all of Dapr's Service Invocation options in [our building blocks section]({{< ref "developing-applications/building-blocks/service-invocation/howto-invoke-discover-services" >}}).
-
-{{% /alert %}}
+With [Dapr's Service Invocation building block](https://docs.dapr.io/developing-applications/building-blocks/service-invocation), your application can communicate reliably and securely with other applications using standard [gRPC](https://grpc.io) or [HTTP](https://www.w3.org/Protocols/) protocols.
 
 Using sidecar architecture:
 
 <img src="/images/serviceinvocation-quickstart/service-invocation-overview.png" width=800 alt="Diagram showing the steps of service invocation" style="padding-bottom:25px;">
 
-In this quickstart, you'll enable Dapr's service invocation by creating:
-
-- A checkout service, and
-- An order processor service.
-
-The checkout service will use Dapr's http proxying capability to invoke a method in the order processing service.
+In this quickstart, you'll enable the `checkout` service to invoke a method using HTTP proxying in the `order-processor` service.
 
 Select your preferred language before proceeding with the quickstart.
 
-{{< tabs "Python" "JavaScript" ".NET" "Go" >}}
+{{< tabs "Python" "JavaScript" ".NET" "Java" "Go" >}}
  <!-- Python -->
 {{% codetab %}}
 
@@ -251,7 +239,7 @@ var response = await client.PostAsync($"{baseURL}/orders", content);
 In a new terminal window, navigate to `order-processor` directory.
 
 ```bash
-cd service_invocation/javascript/http/order-processor
+cd service_invocation/csharp/http/order-processor
 ```
 
 Install the dependencies:
@@ -272,6 +260,87 @@ app.MapPost("/orders", async context => {
     Console.WriteLine("Order received : " + data);
     await context.Response.WriteAsync(data.ToString());
 });
+```
+
+{{% /codetab %}}
+
+ <!-- Java -->
+{{% codetab %}}
+
+### Pre-requisites
+
+For this example, you will need:
+
+- [Dapr CLI and initialized environment](https://docs.dapr.io/getting-started).
+- Java JDK 11 (or greater):
+  - [Oracle JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html#JDK11), or
+  - [OpenJDK](https://jdk.java.net/13/)
+- [Apache Maven](https://maven.apache.org/install.html), version 3.x.
+- [Docker Desktop](https://www.docker.com/products/docker-desktop).
+
+### Step 1: Set up the environment
+
+Clone the sample we've provided.
+
+```bash
+git clone https://github.com/dapr/quickstarts.git
+```
+
+### Run `checkout` service
+
+In a terminal window, navigate to the `checkout` directory.
+
+```bash
+cd service_invocation/java/http/checkout
+```
+
+Install the dependencies:
+
+```bash
+mvn clean install
+```
+
+Run the `checkout` service alongside a Dapr sidecar.
+
+```bash
+dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- java -jar target/CheckoutService-0.0.1-SNAPSHOT.jar
+```
+
+In the `checkout` service, you'll notice there's no need to rewrite your app code to use Dapr's service invocation. You can enable service invocation by simply adding the `dapr-app-id` header which will specify the ID of the target service.
+
+```java
+.header("Content-Type", "application/json")
+.header("dapr-app-id", "order-processor")
+
+HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println("Order passed: "+ orderId)
+```
+
+### Run `order-processor` service
+
+In a new terminal window, navigate to `order-processor` directory.
+
+```bash
+cd service_invocation/java/http/order-processor
+```
+
+Install the dependencies:
+
+```bash
+mvn clean install
+```
+
+Run the `order-processor` service alongside a Dapr sidecar.
+
+```bash
+dapr run --app-id order-processor --app-port 6001 --app-protocol http --dapr-http-port 3501 -- java -jar target/OrderProcessingService-0.0.1-SNAPSHOT.jar
+```
+
+```java
+public String processOrders(@RequestBody Order body) {
+        System.out.println("Order received: "+ body.getOrderId());
+        return "CID" + body.getOrderId();
+    }
 ```
 
 {{% /codetab %}}
@@ -300,7 +369,7 @@ git clone https://github.com/dapr/quickstarts.git
 In a terminal window, navigate to the `checkout` directory.
 
 ```bash
-cd service_invocation/csharp/http/checkout
+cd service_invocation/go/http/checkout
 ```
 
 Install the dependencies:
@@ -340,7 +409,7 @@ if err != nil {
 In a new terminal window, navigate to `order-processor` directory.
 
 ```bash
-cd service_invocation/javascript/http/order-processor
+cd service_invocation/go/http/order-processor
 ```
 
 Install the dependencies:
@@ -368,3 +437,13 @@ func getOrder(w http.ResponseWriter, r *http.Request) {
 
 {{% /tabs %}}
 
+## Next Steps
+
+- Learn more about [Service Invocation as a Dapr building block]({{< ref service-invocation-overview.md >}})
+- Learn more about how to invoke Dapr's Service Invocation with:
+    - [HTTP]({{< ref howto-invoke-discover-services.md >}}), or
+    - [gRPC]({{< ref howto-invoke-services-grpc.md >}})
+- Learn about [Service Invocation namespaces]({{< ref service-invocation-namespaces.md >}})
+- Learn more about [Dapr component scopes]({{< ref component-scopes.md >}})
+
+{{< button text="Explore Dapr tutorials  >>" page="getting-started/tutorials/_index.md" >}}
