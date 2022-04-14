@@ -488,6 +488,8 @@ Each state operation is comprised with the following fields:
 
 Field | Description
 ---- | -----------
+`operation` | State operation type; values include
+`request` | Define `key` and `value` requests
 `key` | State key
 `value` | State value, which can be any byte array
 `etag` | (optional) State ETag
