@@ -6,15 +6,12 @@ no_list: true
 
 Welcome to the Dapr documentation site!
 
-
 {{% alert title="What is Dapr?" color="primary" %}}
-Dapr is a portable, event-driven runtime that makes it easy for any developer to build resilient, 
-stateless and stateful applications that run on the cloud and edge and embraces the diversity of 
-languages and developer frameworks. Leveraging the benefits of a sidecar architecture, Dapr helps 
-you tackle the challenges that come with building microservices and keeps your code platform agnostic. 
-{{< button text="Get started" page="getting-started" >}}
-{{% /alert %}}
+Dapr is a portable, event-driven runtime that makes it easy for any developer to build resilient, stateless and stateful applications that run on the cloud and edge and embraces the diversity of languages and developer frameworks. Leveraging the benefits of a sidecar architecture, Dapr helps you tackle the challenges that come with building microservices and keeps your code platform agnostic.
 
+{{< button text="Get started" page="getting-started" >}}
+
+{{% /alert %}}
 
 ### Start developing with Dapr
 
