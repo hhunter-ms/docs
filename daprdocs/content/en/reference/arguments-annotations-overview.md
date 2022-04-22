@@ -12,7 +12,7 @@ This table is meant to help users understand the equivalent options for running 
 
 | daprd | Dapr CLI | CLI shorthand | Kubernetes annotations | Description
 |----- | ------- | -----------| ----------| ------------ |
-| `--allowed-origins`  | not supported |  | not supported | Allowed HTTP origins (default "*") |
+| `--allowed-origins`  | not supported |  | not supported | Allowed HTTP origins. Default is `*` |
 | `--app-id` | `--app-id` | `-i` | `dapr.io/app-id`  | The unique ID of the application. Used for service discovery, state encapsulation and the pub/sub consumer ID |
 | `--app-port` | `--app-port` | `-p` | `dapr.io/app-port` | This parameter tells Dapr which port your application is listening on |
 | `--app-ssl` | `--app-ssl` | | `dapr.io/app-ssl` | Sets the URI scheme of the app to https and attempts an SSL connection |
@@ -31,7 +31,7 @@ This table is meant to help users understand the equivalent options for running 
 | `--unix-domain-socket` | `--unix-domain-socket` | `-u` | `dapr.io/unix-domain-socket-path`  | On Linux, when communicating with the Dapr sidecar, use unix domain sockets for lower latency and greater throughput compared to TCP ports. Not available on Windows OS |
 | `--log-as-json` | not supported | | `dapr.io/log-as-json` | Setting this parameter to `true` outputs logs in JSON format. Default is `false` |
 | `--log-level` | `--log-level` | | `dapr.io/log-level` | Sets the log level for the Dapr sidecar. Allowed values are `debug`, `info`, `warn`, `error`. Default is `info` |
-| `--enable-api-logging` | `--enable-api-logging` | | `dapr.io/enable-api-logging` | Enables API logging for the Dapr sidecar |
+| `--enable-api-logging` | `--enable-api-logging` | | `dapr.io/enable-api-logging` | Enables API logging for the Dapr sidecar. Default is `false` |
 | `--app-max-concurrency` | `--app-max-concurrency` | | `dapr.io/app-max-concurrency` | Limit the concurrency of your application. A valid value is any number larger than `0`
 | `--metrics-port` | `--metrics-port` | | `dapr.io/metrics-port` | Sets the port for the sidecar metrics server. Default is `9090` |
 | `--mode` | not supported | | not supported | Runtime mode for Dapr (default "standalone") |
