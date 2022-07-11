@@ -33,7 +33,7 @@ The table below shows which resources are deployed to which namespaces:
 ## Pre-requisites
 
 * [Dapr installed on Kubernetes]({{< ref "kubernetes-deploy.md" >}}) in any namespace since Dapr works at the cluster level.
-* Checkout and cd into the directory for [PubSub quickstart](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub).
+* Checkout and cd into the directory for [PubSub tutorial](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub).
 
 ## Setup `namespace-a`
 
