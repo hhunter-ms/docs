@@ -40,7 +40,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### Step 3: Subscribe to topics
 
-In a new terminal window, from the root of the Quickstarts clone directory,
+In a terminal window, from the root of the Quickstarts clone directory
 navigate to the `order-processor` directory.
 
 ```bash
@@ -210,7 +210,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### Step 3: Subscribe to topics
 
-In a new terminal window, from the root of the Quickstarts clone directory,
+In a terminal window, from the root of the Quickstarts clone directory
 navigate to the `order-processor` directory.
 
 ```bash
@@ -368,7 +368,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### Step 3: Subscribe to topics
 
-In a new terminal window, from the root of the Quickstarts clone directory,
+In a terminal window, from the root of the Quickstarts clone directory
 navigate to the `order-processor` directory.
 
 ```bash
@@ -524,7 +524,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### Step 3: Subscribe to topics
 
-In a new terminal window, from the root of the Quickstarts clone directory,
+In a terminal window, from the root of the Quickstarts clone directory
 navigate to the `order-processor` directory.
 
 ```bash
@@ -684,9 +684,9 @@ Clone the [sample provided in the Quickstarts repo](https://github.com/dapr/quic
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### Step 2: Subscribe to topics 
+### Step 3: Subscribe to topics
 
-In a new terminal window, from the root of the quickstarts clone directory,
+In a terminal window, from the root of the Quickstarts clone directory
 navigate to the `order-processor` directory.
 
 ```bash
@@ -712,36 +712,6 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 	fmt.Println("Subscriber received: ", e.Data)
 	return false, nil
 }
-```
-
-### Step 3: Publish a topic
-
-In a terminal window, navigate to the `checkout` directory.
-
-```bash
-cd pub_sub/go/sdk/checkout
-```
-
-Install the dependencies and build the application:
-
-```bash
-go build app.go
-```
-
-Run the `checkout` publisher service alongside a Dapr sidecar.
-
-```bash
-dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 --components-path ../../../components -- go run app.go
-```
-
-In the `checkout` publisher, we're publishing the orderId message to the Redis instance called `order_pub_sub` [(as defined in the `pubsub.yaml` component)]({{< ref "#pubsubyaml-component-file" >}}) and topic `orders`. As soon as the service starts, it publishes in a loop:
-
-```go
-if err := client.PublishEvent(ctx, PUBSUB_NAME, PUBSUB_TOPIC, []byte(order)); err != nil {
-    panic(err)
-}
-
-fmt.Sprintf("Published data: ", order)
 ```
 
 ### Step 4: Publish a topic

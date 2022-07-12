@@ -62,10 +62,6 @@ Parameter | Description
 `daprPort` | The Dapr port
 `storename` | The `metadata.name` field in the user-configured `statestore.yaml` component file. Refer to the [Dapr state store configuration structure](#component-file) mentioned above.
 
-The optional request metadata is passed via URL query parameters. For example,
-```
-POST http://localhost:3500/v1.0/state/myStore?metadata.contentType=application/json
-```
 > All URL parameters are case-sensitive.
 
 #### Request Body
@@ -136,11 +132,6 @@ Parameter | Description
 `consistency` | (optional) Read consistency mode; see [state operation options](#optional-behaviors)
 `metadata` | (optional) Metadata as query parameters to the state store
 
-The optional request metadata is passed via URL query parameters. For example,
-```
-GET http://localhost:3500/v1.0/state/myStore/myKey?metadata.contentType=application/json
-```
-
 > Note, all URL parameters are case-sensitive.
 
 ### HTTP Response
@@ -201,11 +192,6 @@ Parameter | Description
 `daprPort` | The Dapr port
 `storename` | `metadata.name` field in the user-configured statestore.yaml component file. Refer to the [Dapr state store configuration structure](#component-file) mentioned above.
 `metadata` | (optional) Metadata as query parameters to the state store
-
-The optional request metadata is passed via URL query parameters. For example,
-```
-POST/PUT http://localhost:3500/v1.0/state/myStore/bulk?metadata.partitionKey=mypartitionKey
-```
 
 > Note, all URL parameters are case-sensitive.
 
@@ -277,11 +263,6 @@ Parameter | Description
 `concurrency` | (optional) Either *first-write* or *last-write*; see [state operation options](#optional-behaviors)
 `consistency` | (optional) Either *strong* or *eventual*; see [state operation options](#optional-behaviors)
 
-The optional request metadata is passed via URL query parameters. For example,
-```
-DELETE http://localhost:3500/v1.0/state/myStore/myKey?metadata.contentType=application/json
-```
-
 > Note, all URL parameters are case-sensitive.
 
 #### Request Headers
@@ -331,11 +312,6 @@ Parameter | Description
 `daprPort` | The Dapr port
 `storename` | `metadata.name` field in the user-configured statestore.yaml component file. Refer to the [Dapr state store configuration structure](#component-file) mentioned above.
 `metadata` | (optional) Metadata as query parameters to the state store
-
-The optional request metadata is passed via URL query parameters. For example,
-```
-POST http://localhost:3500/v1.0-alpha1/state/myStore/query?metadata.contentType=application/json
-```
 
 > Note, all URL parameters are case-sensitive.
 
@@ -469,11 +445,6 @@ Parameter | Description
 --------- | -----------
 `daprPort` | The Dapr port
 `storename` | `metadata.name` field in the user-configured statestore.yaml component file. Refer to the [Dapr state store configuration structure](#component-file) mentioned above.
-
-The optional request metadata is passed via URL query parameters. For example,
-```
-POST http://localhost:3500/v1.0/state/myStore/transaction?metadata.contentType=application/json
-```
 
 > Note, all URL parameters are case-sensitive.
 
