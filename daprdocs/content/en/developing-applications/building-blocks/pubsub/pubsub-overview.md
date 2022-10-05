@@ -96,7 +96,7 @@ Sometimes, messages can't be processed because of a variety of possible issues, 
 
 ### Namespace consumer groups
 
-Dapr solves multi-tenancy at-scale with its [namespace consumer groups construct]({{< ref howto-namespacing >}}). Simply include the `"{namespace}"` value in your component metadata to allow multiple namespaces with applications of the same `app-id` to publish and subscribe to the same centralized message bus.
+Dapr solves multi-tenancy at-scale with its [namespace consumer groups construct]({{< ref howto-namespace >}}). Simply include the `"{namespace}"` value in your component metadata to allow multiple namespaces with applications of the same `app-id` to publish and subscribe to the same centralized message bus.
 
 ### At-least-once guarantee
 

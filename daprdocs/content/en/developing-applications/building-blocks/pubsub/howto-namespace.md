@@ -3,7 +3,7 @@ type: docs
 title: "How to: Set up pub/sub namespace consumer groups"
 linkTitle: "How to: Namespace consumer groups"
 weight: 6000
-description: One-sentence description of what to expect in the article
+description: "Learn how to use the metadata-based namespace consumer group in your component" 
 ---
 
 You've set up [Dapr's pub/sub API building block]({{< ref pubsub-overview >}}), and your applications are publishing and subscribing to topics smoothly, using a centralized message bus. What if you'd like to perform simple A/B testing, blue/green deployments, or even canary deployments for your applications? Even with using Dapr, this can prove difficult.
@@ -14,13 +14,13 @@ Dapr solves multi-tenancy at-scale with its pub/sub namespace consumer groups co
 
 Let's say you have a Kubernetes cluster, with two applications (App1 and App2) deployed to the same namespace (Namespace A). App2 publishes to a topic called `order`, while App1 subscribes to the topic called `order`. This will create two consumer groups, named after your applications (App1 and App2).
 
-<img src="/images/howto-namespacing/basic-pubsub.png" width=1000 alt="Diagram showing basic pubsub process.">
+<img src="/images/howto-namespace/basic-pubsub.png" width=1000 alt="Diagram showing basic pubsub process.">
 
 In order to perform simple testing and deployments while using a centralized message bus, you create another namespace with two applications of the same `app-id`, App1 and App2. 
 
 Dapr creates consumer groups using the `app-id` of individual applications, so the consumer group names will remain App1 and App2. 
 
-<img src="/images/howto-namespacing/without-namespace.png" width=1000 alt="Diagram showing complications around multi-tenancy without Dapr namespace consumer groups.">
+<img src="/images/howto-namespace/without-namespace.png" width=1000 alt="Diagram showing complications around multi-tenancy without Dapr namespace consumer groups.">
 
 To avoid this, you'd then need to have something "creep" into your code to change the `app-id`, depending on the namespace on which you're running. This workaround is cumbersome and a significant painpoint.
 
@@ -47,7 +47,7 @@ spec:
 
 By calling `consumerID` with the `{namespace}` value, you'll be able to use the same `app-id` with the same topics from different namespaces.
 
-<img src="/images/howto-namespacing/with-namespace.png" width=1000 alt="Diagram showing how namespace consumer groups help with multi-tenancy.">
+<img src="/images/howto-namespace/with-namespace.png" width=1000 alt="Diagram showing how namespace consumer groups help with multi-tenancy.">
 
 In the diagram above, you have two namespaces, each with applications of the same `app-id`, publishing and subscribing to the same centralized message bus `orders. This time, however, Dapr has created consumer group names prefixed with the namespace in which they're running. 
 
