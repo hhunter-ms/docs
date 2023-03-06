@@ -28,9 +28,11 @@ Refer to the TTL column in the [state store components guide]({{< ref supported-
 
 You can set state TTL in the metadata as part of the state store set request:
 
-{{< tabs Python "HTTP API (Bash)" "HTTP API (PowerShell)">}}
+{{< tabs Python ".NET" JavaScript Java Go "HTTP API (Bash)" "HTTP API (PowerShell)">}}
 
 {{% codetab %}}
+
+<!--python-->
 
 ```python
 #dependencies
@@ -45,6 +47,70 @@ with DaprClient() as client:
         client.save_state(DAPR_STORE_NAME, "order_1", str(orderId), state_metadata={
             'ttlInSeconds': '120'
         }) 
+
+```
+
+To launch a Dapr sidecar and run the above example application, you'd then run a command similar to the following:
+
+```bash
+dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 -- python3 OrderProcessingService.py
+```
+
+{{% /codetab %}}
+
+{{% codetab %}}
+
+<!--dotnet-->
+
+```csharp
+
+```
+
+To launch a Dapr sidecar and run the above example application, you'd then run a command similar to the following:
+
+```bash
+dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 -- python3 OrderProcessingService.py
+```
+
+{{% /codetab %}}
+
+{{% codetab %}}
+
+<!--javascript-->
+
+```js
+
+```
+
+To launch a Dapr sidecar and run the above example application, you'd then run a command similar to the following:
+
+```bash
+dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 -- python3 OrderProcessingService.py
+```
+
+
+{{% /codetab %}}
+{{% codetab %}}
+
+<!--java-->
+
+```java
+
+```
+
+To launch a Dapr sidecar and run the above example application, you'd then run a command similar to the following:
+
+```bash
+dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 -- python3 OrderProcessingService.py
+```
+
+{{% /codetab %}}
+
+{{% codetab %}}
+
+<!--go-->
+
+```go
 
 ```
 
