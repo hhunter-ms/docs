@@ -26,9 +26,99 @@ In this guide, you'll:
 
 <img src="/images/workflow-quickstart-overview.png" width=800 style="padding-bottom:15px;">
 
-Currently, you can experience the Dapr Workflow using the .NET SDK.
+Select your preferred language-specific Dapr SDK before proceeding with the Quickstart.
 
-{{< tabs ".NET" >}}
+{{< tabs Python ".NET" >}}
+
+ <!-- Python -->
+{{% codetab %}}
+
+### Step 1: Pre-requisites
+
+For this example, you will need:
+
+- [Dapr CLI and initialized environment](https://docs.dapr.io/getting-started).
+- [Python 3.7+ installed](https://www.python.org/downloads/).
+<!-- IGNORE_LINKS -->
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+<!-- END_IGNORE -->
+
+### Step 2: Set up the environment
+
+Clone the [sample provided in the Quickstarts repo](https://github.com/dapr/quickstarts/tree/master/workflows).
+
+```bash
+git clone https://github.com/dapr/quickstarts.git
+```
+
+In a new terminal window, navigate to the `order-processor` directory:
+
+```bash
+cd workflows/python/sdk/order-processor
+```
+
+### Step 3: Run the order processor app
+
+In the terminal, start the order processor app alongside a Dapr sidecar:
+
+```bash
+dapr run todo
+```
+
+This starts the `order-processor` app with unique workflow ID and runs the workflow activities. 
+
+Expected output:
+
+```
+todo
+```
+
+### (Optional) Step 4: View in Zipkin
+
+If you have Zipkin configured for Dapr locally on your machine, you can view the workflow trace spans in the Zipkin web UI (typically at `http://localhost:9411/zipkin/`).
+
+<img src="/images/workflow-trace-spans-zipkin.png" width=800 style="padding-bottom:15px;">
+
+### What happened?
+
+When you ran `dapr run todo`:
+
+1. A unique order ID for the workflow is generated (in the above example, `6d2abcc9`) and the workflow is scheduled.
+1. The `NotifyActivity` workflow activity sends a notification saying an order for 10 cars has been received.
+1. The `ReserveInventoryActivity` workflow activity checks the inventory data, determines if you can supply the ordered item, and responds with the number of cars in stock.
+1. Your workflow starts and notifies you of its status.
+1. The `ProcessPaymentActivity` workflow activity begins processing payment for order `6d2abcc9` and confirms if successful.
+1. The `UpdateInventoryActivity` workflow activity updates the inventory with the current available cars after the order has been processed.
+1. The `NotifyActivity` workflow activity sends a notification saying that order `6d2abcc9` has completed.
+1. The workflow terminates as completed.
+
+#### `order-processor/Program.cs` 
+
+In the application's program file:
+- The unique workflow order ID is generated
+- The workflow is scheduled
+- The workflow status is retrieved
+- The workflow and the workflow activities it invokes are registered
+
+```python
+todo
+```
+
+#### `order-processor/Workflows/todo`
+
+In `OrderProcessingWorkflow.cs`, the workflow is defined as a class with all of its associated tasks (determined by workflow activities).
+
+```python
+todo
+```
+
+#### `order-processor/Activities` directory
+
+The `Activities` directory holds the four workflow activities used by the workflow, defined in the following files:
+- `todo`
+
+
+{{% /codetab %}}
 
  <!-- .NET -->
 {{% codetab %}}
