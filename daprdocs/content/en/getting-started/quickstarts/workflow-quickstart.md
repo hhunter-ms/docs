@@ -10,7 +10,7 @@ description: Get started with the Dapr Workflow building block
 The workflow building block is currently in **alpha**. 
 {{% /alert %}}
 
-Let's take a look at the Dapr [Workflow building block]({{< ref workflow >}}). In this Quickstart, you'll create a simple console application to demonstrate Dapr's workflow programming model and the workflow management APIs. 
+Let's take a look at the Dapr [Workflow building block]({{< ref "workflow-overview.md" >}}). In this Quickstart, you'll create a simple console application to demonstrate Dapr's workflow programming model and the workflow management APIs. 
 
 The `order-processor` console app starts and manages the lifecycle of the `OrderProcessingWorkflow` workflow that stores and retrieves data in a state store. The workflow consists of four workflow activities, or tasks:
 - `NotifyActivity`: Utilizes a logger to print out messages throughout the workflow
