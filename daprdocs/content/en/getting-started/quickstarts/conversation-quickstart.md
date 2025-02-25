@@ -129,11 +129,11 @@ base_url = os.getenv('BASE_URL', 'http://localhost') + ':' + os.getenv(
 CONVERSATION_COMPONENT_NAME = 'echo'
 
 input = {
-		'name': 'echo',
-		'inputs': [{'message':'What is dapr?'}],
-		'parameters': {},
-		'metadata': {}
-    }
+  'name': 'echo',
+  'inputs': [{'content':'What is dapr?'}],
+  'parameters': {},
+  'metadata': {}
+}
 
 # Send input to conversation endpoint
 result = requests.post(
